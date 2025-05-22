@@ -1,7 +1,5 @@
 package my.graph.node;
 
-import my.util.UnorderedList;
-
 import java.util.EnumMap;
 import java.util.HashSet;
 
