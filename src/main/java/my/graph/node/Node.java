@@ -3,14 +3,13 @@ package my.graph.node;
 import java.util.EnumMap;
 
 public class Node implements NodeView {
-    static NodeCleaner nodeCleaner;
-    static int count; // 논리적으로 살아있는 갯수
+    static NodeManager nodeManager;
     private Data data;
     private boolean exist;
     public final EnumMap<Direction, NodeViewList> adjacentNodes;
 
     static {
-        nodeCleaner = new NodeCleaner();
+        nodeManager = new NodeManager();
     }
 
     public Node() {
@@ -19,7 +18,7 @@ public class Node implements NodeView {
         for (Direction dir : Direction.getDirections()) {
             adjacentNodes.put(dir, new NodeViewList());
         }
-        count++;
+        nodeManager.livingCount++;
     }
 
     public Node get() {
@@ -31,10 +30,15 @@ public class Node implements NodeView {
 
     public void delete() {
         exist = false;
-        nodeCleaner.delete(this);
+        nodeManager.delete(this);
     }
 
     public void cleanNullViews(Direction direction) {
         adjacentNodes.get(direction).cleanDeletedNodes();
+    }
+
+    public void link(Node node, Direction direction) {
+        this.adjacentNodes.get(direction).add(node);
+        node.adjacentNodes.get(direction.opposite()).add(this);
     }
 }

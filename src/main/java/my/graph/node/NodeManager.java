@@ -3,10 +3,10 @@ package my.graph.node;
 import java.util.EnumMap;
 import java.util.HashSet;
 
-public class NodeCleaner {
+public class NodeManager {
     private final EnumMap<Direction, HashSet<Node>> cleanList;
-
-    public NodeCleaner() {
+    int livingCount; // 논리적으로 살아있는 갯수
+    public NodeManager() {
         cleanList = new EnumMap<>(Direction.class);
         for (Direction direction : Direction.getDirections()) {
             cleanList.put(direction, new HashSet<Node>());
@@ -36,7 +36,7 @@ public class NodeCleaner {
             }
             cleanCount += cleanList.get(direction).size();
         }
-        if (cleanCount * 2 > Node.count) { // 지울거 : 생존 비율이 1 : 2 정도 되면...
+        if (cleanCount * 4 > livingCount) {
             cleanAll();
         }
     }
