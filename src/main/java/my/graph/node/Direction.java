@@ -5,18 +5,14 @@ import java.util.EnumMap;
 public enum Direction {
     OUT, IN;
 
-    private static final Direction[] directions;
+    public static final Direction[] directions;
     private static final EnumMap<Direction, Direction> oppositeDirections;
 
     static {
         directions = values();
-        oppositeDirections = new EnumMap<>(Direction.class);
+        oppositeDirections = new EnumMap<Direction, Direction>(Direction.class);
         oppositeDirections.put(OUT, IN);
         oppositeDirections.put(IN, OUT);
-    }
-
-    public static Direction[] getDirections() {
-        return directions;
     }
 
     public Direction opposite() {
